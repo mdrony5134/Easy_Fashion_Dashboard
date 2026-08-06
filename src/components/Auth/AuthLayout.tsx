@@ -1,4 +1,4 @@
-import logo from "@/assets/anotherLogo.png";
+import logo from "@/assets/logo.webp";
 import Image from "next/image";
 import type React from "react";
 
@@ -16,7 +16,7 @@ export default function AuthLayout({
   return (
     <div className="min-h-screen flex">
       {/* Left side - Logo and branding */}
-      <div className="hidden lg:flex lg:w-1/2 bg-[#ECCD3E] items-center justify-center p-8">
+      <div className="hidden lg:flex lg:w-1/2 bg-brand-yellow items-center justify-center p-8">
         <div className="text-center">
           <div className="mb-8">
             <Image

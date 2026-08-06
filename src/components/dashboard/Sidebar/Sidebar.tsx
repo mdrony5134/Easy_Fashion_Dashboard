@@ -1,78 +1,91 @@
 "use client";
 
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.webp";
 import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 import {
-  CreditCard,
   FileText,
   LayoutDashboard,
   LogOut,
-  MessageSquare,
   Package,
-  Percent,
   Settings,
   Users,
   X,
+  Tags,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface SidebarProps {
   onCloseClick?: () => void;
 }
 
+interface DecodedToken {
+  role: string;
+  exp: number;
+}
+
 const Sidebar = ({ onCloseClick }: SidebarProps) => {
   const pathname = usePathname();
   const router = useRouter();
+  const [role, setRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      try {
+        const decoded: DecodedToken = jwtDecode(token);
+        setRole(decoded.role);
+      } catch (error) {
+        console.error("Invalid token", error);
+      }
+    }
+  }, []);
 
   const menuItems = [
     {
       href: "/admin/dashboard",
       icon: LayoutDashboard,
       label: "Dashboard",
-    },
-    {
-      href: "/admin/orders",
-      icon: FileText,
-      label: "Order List",
+      roles: ["SUPER_ADMIN", "ADMIN", "MANAGER"],
     },
     {
       href: "/admin/products",
       icon: Package,
       label: "Products",
+      roles: ["SUPER_ADMIN", "ADMIN", "MANAGER"],
     },
     {
-      href: "/admin/discounts",
-      icon: Percent,
-      label: "Discount & Coupons",
+      href: "/admin/attributes",
+      icon: Tags,
+      label: "Attributes",
+      roles: ["SUPER_ADMIN", "ADMIN", "MANAGER"],
+    },
+    {
+      href: "/admin/order-list",
+      icon: FileText,
+      label: "Order List",
+      roles: ["SUPER_ADMIN", "ADMIN", "MANAGER"],
     },
     {
       href: "/admin/users",
       icon: Users,
       label: "User Management",
-    },
-    {
-      href: "/admin/disputes",
-      icon: MessageSquare,
-      label: "Dispute Management",
-    },
-    {
-      href: "/admin/payments",
-      icon: CreditCard,
-      label: "Payment History",
-    },
-    {
-      href: "/admin/shipping",
-      icon: CreditCard,
-      label: "Shipping Management",
+      roles: ["SUPER_ADMIN", "ADMIN"],
     },
     {
       href: "/admin/settings",
       icon: Settings,
       label: "Settings",
+      roles: ["SUPER_ADMIN", "ADMIN", "MANAGER"],
     },
   ];
+
+  const filteredMenuItems = menuItems.filter(
+    (item) => !role || item.roles.includes(role),
+  );
 
   const handleLogout = () => {
     Cookies.remove("token");
@@ -94,14 +107,14 @@ const Sidebar = ({ onCloseClick }: SidebarProps) => {
         {/* Logo Section */}
         <div className="p-6 ">
           <div className="flex items-center justify-center">
-            <Image className="w-[100px] object-contain" src={logo} alt="logo" />
+            <Image className="w-[160px] object-contain" src={logo} alt="logo" />
           </div>
         </div>
 
         {/* Navigation */}
         <nav className="flex-1 p-4">
           <ul className="space-y-2">
-            {menuItems.map((item, index) => {
+            {filteredMenuItems.map((item, index) => {
               const Icon = item.icon;
               const isActive = pathname === item.href;
 
@@ -111,10 +124,10 @@ const Sidebar = ({ onCloseClick }: SidebarProps) => {
                     href={item.href}
                     className={`flex items-center gap-3 px-4 py-3 rounded-lg text-base  transition-colors ${
                       isActive
-                        ? "bg-[#FC961A] text-white font-medium"
+                        ? "bg-brand-red text-white font-medium"
                         : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
                     }`}
-                    onClick={onCloseClick} // Close sidebar on mobile when clicking menu item
+                    onClick={onCloseClick}
                   >
                     <Icon className="w-5 h-5" />
                     <span>{item.label}</span>

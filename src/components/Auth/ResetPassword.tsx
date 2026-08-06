@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useResetPasswordMutation } from "@/redux/api/admin/dashboarApi";
+
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -20,7 +20,7 @@ export default function ResetPassword() {
 
   // const email = searchParams.get("email");
 
-  const [resetPasswordFn] = useResetPasswordMutation();
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,11 +39,10 @@ export default function ResetPassword() {
     setIsLoading(true);
 
     try {
-      const response = await resetPasswordFn(newPassword).unwrap();
-      if (response.success) {
-        toast.success("Password reset successfully");
-        router.push("/login");
-      }
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 800));
+      toast.success("Password reset successfully");
+      router.push("/login");
     } catch {
       setError("Failed to reset password");
     } finally {
@@ -72,7 +71,7 @@ export default function ResetPassword() {
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             required
-            className="w-full h-12 px-4 pr-12 border border-gray-300 rounded-full bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="w-full h-12 px-4 pr-12 border border-gray-300 rounded-full bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-green"
           />
 
           {/* Toggle eye button */}
@@ -103,7 +102,7 @@ export default function ResetPassword() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
-            className="w-full h-12 px-4 pr-12 border border-gray-300 rounded-full bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="w-full h-12 px-4 pr-12 border border-gray-300 rounded-full bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-green"
           />
 
           {/* Toggle eye button */}
@@ -121,7 +120,7 @@ export default function ResetPassword() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full h-12 bg-[#FC961A]  text-white  rounded-full hover:bg-none font-semibold"
+          className="w-full h-12 bg-brand-red text-white rounded-full hover:bg-red-600 font-semibold"
         >
           {isLoading ? "Updating..." : "Submit"}
         </button>

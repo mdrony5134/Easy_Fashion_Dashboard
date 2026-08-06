@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import AuthLayout from "./AuthLayout";
-import { useVerifyOtpMutation } from "@/redux/api/admin/dashboarApi";
+
 
 export default function VerifyOTP() {
   const [otp, setOtp] = useState(["", "", "", ""]);
@@ -39,8 +39,6 @@ export default function VerifyOTP() {
     }
   };
 
-  const [verifyOtpFn] = useVerifyOtpMutation();
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const otpValue = otp.join("");
@@ -49,20 +47,17 @@ export default function VerifyOTP() {
 
     setIsLoading(true);
     try {
-      const response = await verifyOtpFn({ email, otp: otpValue }).unwrap();
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 800));
 
-      if (response?.success) {
-        toast.success("OTP verified successfully");
-        router.push(`/reset-password?email=${encodeURIComponent(email)}`);
-      } else {
-        toast.error("Invalid OTP, please try again.");
-      }
+      toast.success("OTP verified successfully");
+      router.push(`/reset-password?email=${encodeURIComponent(email)}`);
+      
     } catch (error: any) {
       toast.error(error?.data?.message || "Verification failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
-  };
 
   return (
     <AuthLayout title="Check your Email">
@@ -80,7 +75,7 @@ export default function VerifyOTP() {
               value={digit}
               onChange={(e) => handleChange(index, e.target.value)}
               onKeyDown={(e) => handleKeyDown(index, e)}
-              className="w-20 h-[55px] text-center text-lg font-semibold border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FC961A] focus:border-[#FC961A]"
+              className="w-20 h-[55px] text-center text-lg font-semibold border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-brand-green"
             />
           ))}
         </div>
@@ -88,7 +83,7 @@ export default function VerifyOTP() {
         <Button
           type="submit"
           disabled={isLoading || otp.join("").length !== 4}
-          className="w-full bg-[#FC961A] text-white font-medium py-3 rounded-lg disabled:opacity-50"
+          className="w-full bg-brand-red text-white font-medium py-3 rounded-lg disabled:opacity-50"
         >
           {isLoading ? "Verifying..." : "Submit"}
         </Button>

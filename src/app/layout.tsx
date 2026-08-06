@@ -1,9 +1,9 @@
+import logo from "@/assets/logo.webp";
+import ReduxProvider from "@/redux/ReduxProvider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import ReduxProvider from "@/redux/ReduxProvider";
 import { Toaster } from "sonner";
-import logo from "@/assets/logo.png";
+import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FreemanZ Dashboard",
-  description: "FreemanZ Management Dashboard",
+  title: "Easy Fashion Dashboard",
+  description: "Easy Fashion Management Dashboard",
   icons: {
     icon: logo.src,
   },

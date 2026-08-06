@@ -7,10 +7,7 @@ import d2 from "@/assets/dashboard/d2.svg";
 import d4 from "@/assets/dashboard/d4.svg";
 import reverse from "@/assets/dashboard/reverse-withdrawal.svg";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  useGetDashboardOverviewQuery,
-  useGetDashboardOverviewUserQuery,
-} from "@/redux/api/admin/dashboarApi";
+
 import { Loader2 } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
 import {
@@ -65,45 +62,74 @@ const renderCustomizedLabel = ({
 };
 
 export default function Dashboard() {
-  const { data: dashboardOverview, isLoading: isDataLoading } =
-    useGetDashboardOverviewQuery("yearly");
-  console.log("data in dashboard", dashboardOverview);
-  const { data: dashboardUserData, isLoading } =
-    useGetDashboardOverviewUserQuery("yearly");
-  console.log("data in user", dashboardUserData);
-  const usersResponse = dashboardUserData?.result;
+  // Static mock dashboard overview data
+  const summary = {
+    totalRevenue: 45000,
+    deliveredOrders: 1200,
+    totalCustomers: 850,
+    totalOrders: 1500,
+  };
 
-  const dashboardOverviewData = dashboardOverview?.result;
-  const summary = dashboardOverviewData?.summary;
+  const usersResponse = {
+    lastTenUsers: [
+      { id: "1", firstName: "Alice", lastName: "Johnson", profileImage: "", phone: "+1 234 567 890", email: "alice@example.com" },
+      { id: "2", firstName: "Bob", lastName: "Smith", profileImage: "", phone: "+1 987 654 321", email: "bob@example.com" },
+      { id: "3", firstName: "Charlie", lastName: "Brown", profileImage: "", phone: "+1 555 123 456", email: "charlie@example.com" },
+    ],
+    chartData: [
+      { label: "Jan", value: 1000000 },
+      { label: "Feb", value: 1200000 },
+      { label: "Mar", value: 900000 },
+      { label: "Apr", value: 1500000 },
+    ],
+  };
+
+  const dashboardOverviewData = {
+    revenueChart: {
+      chartData: [
+        { label: "Jan", totalRevenue: 1000, delivered: 800, cancelled: 50 },
+        { label: "Feb", totalRevenue: 1200, delivered: 900, cancelled: 60 },
+        { label: "Mar", totalRevenue: 900, delivered: 700, cancelled: 40 },
+        { label: "Apr", totalRevenue: 1500, delivered: 1200, cancelled: 80 },
+      ]
+    },
+    ringChartData: {
+      pending: 100,
+      inRoute: 50,
+      delivered: 1200,
+      cancelled: 150,
+    }
+  };
+
   // sumary data
   const statsData = [
     {
       title: "Total Revenue",
       value: summary?.totalRevenue,
       icon: reverse,
-      bgColor: "bg-[#FC961A33]",
-      iconColor: "text-orange-500",
+      bgColor: "bg-brand-yellow",
+      iconColor: "text-white",
     },
     {
       title: "Received orders",
       value: summary?.deliveredOrders,
       icon: d2,
-      bgColor: "bg-[#FC961A33]",
-      iconColor: "text-orange-500",
+      bgColor: "bg-brand-yellow",
+      iconColor: "text-white",
     },
     {
       title: "Total Customer",
       value: summary?.totalCustomers,
       icon: d1,
-      bgColor: "bg-[#FC961A33]",
-      iconColor: "text-orange-500",
+      bgColor: "bg-brand-yellow",
+      iconColor: "text-white",
     },
     {
       title: "Total Order",
       value: summary?.totalOrders,
       icon: d4,
-      bgColor: "bg-[#FC961A33]",
-      iconColor: "text-orange-500",
+      bgColor: "bg-brand-yellow",
+      iconColor: "text-white",
     },
   ];
 
@@ -118,10 +144,10 @@ export default function Dashboard() {
   const pieChartData = dashboardOverviewData?.ringChartData;
 
   const pieData = [
-    { name: "Pending", value: pieChartData?.pending, color: "#f97316" },
+    { name: "Pending", value: pieChartData?.pending, color: "#ECCD3E" },
     { name: "InRoute", value: pieChartData?.inRoute, color: "#3b82f6" },
-    { name: "Delivered", value: pieChartData?.delivered, color: "#22c55e" },
-    { name: "Cancelled", value: pieChartData?.cancelled, color: "#ef4444" },
+    { name: "Delivered", value: pieChartData?.delivered, color: "#4CAF50" },
+    { name: "Cancelled", value: pieChartData?.cancelled, color: "#E53935" },
   ];
 
   // const user data
@@ -134,13 +160,7 @@ export default function Dashboard() {
 
   // loaing effect
 
-  if (isDataLoading || isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        Loading data<Loader2 className="animate-spin" size={40} />
-      </div>
-    );
-  }
+
 
   return (
     <div>
@@ -183,15 +203,15 @@ export default function Dashboard() {
                 </h3>
                 <div className="flex flex-wrap gap-4 text-sm">
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-[#FC961A] rounded-[4px]"></div>
+                    <div className="w-3 h-3 bg-brand-yellow rounded-[4px]"></div>
                     <span className="text-grey">Total Revenue</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-[#FDC076] rounded-[4px]"></div>
+                    <div className="w-3 h-3 bg-brand-green rounded-[4px]"></div>
                     <span className="text-grey">Delivered Order</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-[#FEEAD1] rounded-[4px]"></div>
+                    <div className="w-3 h-3 bg-brand-red rounded-[4px]"></div>
                     <span className="text-grey">Cancel order</span>
                   </div>
                 </div>
@@ -212,21 +232,21 @@ export default function Dashboard() {
                       axisLine={false}
                       tickLine={false}
                       className="text-xs font-medium text-default"
-                      tickFormatter={(revenue) => `$${revenue}`}
+                      tickFormatter={(revenue) => `৳${revenue}`}
                     />
                     <Bar
                       dataKey="totalRevenue"
-                      fill="#FC961A"
+                      fill="#ECCD3E"
                       radius={[8, 8, 0, 0]}
                     />
                     <Bar
                       dataKey="delivered"
-                      fill="#FDC076"
+                      fill="#4CAF50"
                       radius={[8, 8, 0, 0]}
                     />
                     <Bar
                       dataKey="cancelled"
-                      fill="#FEEAD1"
+                      fill="#E53935"
                       radius={[8, 8, 0, 0]}
                     />
                   </BarChart>
@@ -355,13 +375,13 @@ export default function Dashboard() {
                       tickLine={false}
                       className="text-xs"
                       tickFormatter={(value) =>
-                        `$${(value / 1000000).toFixed(1)}`
+                        `৳${(value / 1000000).toFixed(1)}`
                       }
                     />
                     <Line
                       type="monotone"
                       dataKey="value"
-                      stroke="#f97316"
+                      stroke="#4CAF50"
                       strokeWidth={3}
                       dot={false}
                     />

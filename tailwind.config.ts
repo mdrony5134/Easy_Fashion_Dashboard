@@ -25,6 +25,9 @@ export default {
         grey: "#636F85",
         white: "#FFF",
         default: "#101010",
+        "brand-green": "#4CAF50",
+        "brand-red": "#E53935",
+        "brand-yellow": "#ECCD3E",
 
         foreground: "hsl(var(--foreground))",
         card: {

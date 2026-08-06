@@ -4,7 +4,7 @@ const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (data) => ({
-        url: `/auth/admin-login`,
+        url: `/auth/login`,
         method: "POST",
         body: data,
       }),
@@ -12,7 +12,7 @@ const authApi = baseApi.injectEndpoints({
     }),
     myProfile: builder.query({
       query: () => ({
-        url: `/auth/profile`,
+        url: `/auth/me`,
         method: "GET",
       }),
       providesTags: ["auth"],

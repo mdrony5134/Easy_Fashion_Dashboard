@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { useForgotPasswordMutation } from "@/redux/api/admin/dashboarApi";
+
 import { toast } from "sonner";
 import AuthLayout from "./AuthLayout";
 
@@ -29,14 +29,12 @@ export default function ForgotPassword() {
 
     setIsLoading(true);
     try {
-      const response = await forgotPassowordFn({ email }).unwrap();
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 800));
 
-      if (response?.success) {
-        toast.success("Email verification code sent successfully");
-        router.push(`/verify-otp?email=${encodeURIComponent(email)}`);
-      } else {
-        toast.error("Failed to send verification code");
-      }
+      toast.success("Email verification code sent successfully");
+      router.push(`/verify-otp?email=${encodeURIComponent(email)}`);
+      
     } catch (error: any) {
       toast.error(
         error?.data?.message || "Something went wrong. Please try again."
@@ -59,7 +57,7 @@ export default function ForgotPassword() {
           <input
             type="email"
             placeholder="example@gmail.com"
-            className="w-full px-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400 text-gray-600 placeholder-gray-500"
+            className="w-full px-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-brand-green text-gray-600 placeholder-gray-500"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -70,7 +68,7 @@ export default function ForgotPassword() {
           Remember the password?{" "}
           <Link
             href="/login"
-            className="text-orange-500 hover:text-orange-600 font-medium"
+            className="text-brand-red hover:text-red-600 font-medium"
           >
             Log in
           </Link>
@@ -79,7 +77,7 @@ export default function ForgotPassword() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full h-12 bg-[#FC961A]  text-white  rounded-full hover:bg-none font-semibold"
+          className="w-full h-12 bg-brand-red text-white rounded-full hover:bg-red-600 font-semibold"
         >
           {isLoading ? "Sending..." : "Send code"}
         </button>

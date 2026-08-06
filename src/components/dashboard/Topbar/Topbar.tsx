@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import profileAvatar from "@/assets/navbar/profile.png";
-import { useMyProfileQuery } from "@/redux/api/authApi";
+import profileAvatar from "@/assets/profile.png";
+
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import Image from "next/image";
@@ -17,10 +17,12 @@ const Topbar: React.FC<{ onHamburgerClick: () => void }> = ({
 
   // fksdflk
 
-  const { data: myProfileData } = useMyProfileQuery({});
-
-  console.log("profile data", myProfileData);
-  const profile = myProfileData?.result;
+  // Static mock profile data
+  const profile = {
+    firstName: "Super",
+    lastName: "Admin",
+    profileImage: null,
+  };
 
   const token = Cookies.get("token");
 
@@ -37,7 +39,7 @@ const Topbar: React.FC<{ onHamburgerClick: () => void }> = ({
   console.log("decode token details", decodedToken);
 
   return (
-    <header className="bg-white shadow-sm py-6 px-6 lg:px-16 w-full">
+    <header className="bg-white shadow-sm py-6 px-6 lg:px-16 w-full border-b border-red-200">
       <div className="flex justify-between items-center flex-wrap">
         {/* Hamburger Icon for Mobile */}
         <button

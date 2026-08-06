@@ -6,11 +6,7 @@ import profile from "@/assets/profile1.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import SimpleLoader from "@/components/ui/SimpleLoader";
-import {
-  useChangePasswordMutation,
-  useUpdateProfileMutation,
-} from "@/redux/api/admin/dashboarApi";
-import { useMyProfileQuery } from "@/redux/api/authApi";
+
 import { Edit, Eye, EyeOff, Info, Loader, Save, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -35,19 +31,21 @@ export default function Settings() {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const { data: profileData, isLoading, refetch } = useMyProfileQuery({});
-  const [updateProfileFn, { isLoading: isUpdating }] =
-    useUpdateProfileMutation();
-  const [changePasswordFn, { isLoading: isChangingPassword }] =
-    useChangePasswordMutation();
+  // Mock Profile Data
+  const profileData = {
+    success: true,
+    result: {
+      firstName: "Super",
+      lastName: "Admin",
+      email: "admin@easyfashion.com",
+      phone: "+1 800 EASY",
+      profileImage: profile.src,
+    }
+  };
 
-  const passwordForm = useForm({
-    defaultValues: {
-      oldPassword: "",
-      newPassword: "",
-      confirmPassword: "",
-    },
-  });
+  const isLoading = false;
+  const isUpdating = false;
+  const isChangingPassword = false;
 
   useEffect(() => {
     if (profileData?.success && profileData?.result) {
@@ -61,7 +59,7 @@ export default function Settings() {
         profileImage: user.profileImage || profile.src,
       });
     }
-  }, [profileData]);
+  }, []);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({
@@ -91,27 +89,14 @@ export default function Settings() {
 
   const handleSave = async () => {
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append("firstName", formData.firstName);
-      formDataToSend.append("lastName", formData.lastName);
-      formDataToSend.append(
-        "phone",
-        formData.phone === "N/A" ? "" : formData.phone,
-      );
+      // Simulate save
+      await new Promise(resolve => setTimeout(resolve, 800));
 
-      if (selectedImage) {
-        formDataToSend.append("profileImage", selectedImage);
-      }
-
-      const result = await updateProfileFn(formDataToSend).unwrap();
-
-      if (result?.success) {
-        toast.success("Profile updated successfully");
-        setIsEditing(false);
-        setSelectedImage(null);
-        setImagePreview("");
-        refetch();
-      }
+      toast.success("Profile updated successfully");
+      setIsEditing(false);
+      setSelectedImage(null);
+      setImagePreview("");
+      
     } catch (error) {
       console.error("Failed to update profile:", error);
       toast.error("Failed to update profile");
@@ -133,15 +118,12 @@ export default function Settings() {
     }
 
     try {
-      const result = await changePasswordFn({
-        oldPassword: data.oldPassword,
-        newPassword: data.newPassword,
-      }).unwrap();
-
-      if (result?.success) {
-        toast.success("Password changed successfully");
-        passwordForm.reset();
-      }
+      // Simulate save
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      toast.success("Password changed successfully");
+      passwordForm.reset();
+      
     } catch (error: any) {
       console.error("Failed to change password:", error);
       toast.error(error.data?.message || "Failed to change password");
@@ -176,7 +158,7 @@ export default function Settings() {
                 onClick={() => setActiveTab("basic")}
                 className={`flex items-center justify-between rounded-xl px-4 py-3 text-left transition-colors ${
                   activeTab === "basic"
-                    ? "bg-primary text-white"
+                    ? "bg-brand-red text-white"
                     : "text-gray-700 hover:bg-gray-100"
                 }`}
               >
@@ -203,7 +185,7 @@ export default function Settings() {
                 onClick={() => setActiveTab("password")}
                 className={`flex items-center justify-between rounded-xl px-4 py-3 text-left transition-colors ${
                   activeTab === "password"
-                    ? "bg-primary text-white"
+                    ? "bg-brand-red text-white"
                     : "text-gray-700 hover:bg-gray-100"
                 }`}
               >
@@ -359,7 +341,7 @@ export default function Settings() {
                     <Button
                       onClick={handleSave}
                       disabled={isUpdating}
-                      className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-primary px-8 py-3 text-base font-medium text-white hover:bg-orange-600 sm:w-auto"
+                      className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-brand-red px-8 py-3 text-base font-medium text-white hover:bg-red-600 sm:w-auto"
                     >
                       {isUpdating ? (
                         <>
@@ -497,7 +479,7 @@ export default function Settings() {
                   <div className="pt-4">
                     <button
                       type="submit"
-                      className="flex w-full items-center justify-center gap-2 rounded-[8px] bg-primary px-6 py-3 font-medium text-white transition-colors hover:bg-orange-600 sm:w-auto"
+                      className="flex w-full items-center justify-center gap-2 rounded-[8px] bg-brand-red px-6 py-3 font-medium text-white transition-colors hover:bg-red-600 sm:w-auto"
                       disabled={isChangingPassword}
                     >
                       {isChangingPassword ? (
