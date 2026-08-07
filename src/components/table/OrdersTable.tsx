@@ -1,20 +1,34 @@
 "use client";
 
 import React from "react";
-import { Eye } from "lucide-react";
+import { Eye, Loader2, Package } from "lucide-react";
 import { OrderType, OrderStatus, STATUS_COLORS } from "@/types/ordersTypes";
 
 interface OrdersTableProps {
   orders: OrderType[];
   onView: (order: OrderType) => void;
   onStatusChange: (orderId: string, newStatus: OrderStatus) => void;
+  isLoading?: boolean;
+  totalItems?: number;
 }
 
 export default function OrdersTable({ 
   orders, 
   onView, 
-  onStatusChange 
+  onStatusChange,
+  isLoading = false,
+  totalItems = 0
 }: OrdersTableProps) {
+  if (isLoading) {
+    return (
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="flex items-center justify-center py-16">
+          <Loader2 className="w-8 h-8 animate-spin text-brand-red" />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
       <div className="overflow-x-auto">
@@ -33,11 +47,20 @@ export default function OrdersTable({
             {orders.length === 0 ? (
               <tr>
                 <td colSpan={6} className="py-12 text-center">
-                  <div className="flex flex-col items-center justify-center gap-2">
-                    <p className="text-gray-500">No orders found</p>
-                    <p className="text-sm text-gray-400">
-                      Try adjusting your search or filter
-                    </p>
+                  <div className="flex flex-col items-center justify-center gap-3">
+                    <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center">
+                      <Package className="w-8 h-8 text-gray-400" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900">
+                        {totalItems === 0 ? "No Orders Found" : "No Matching Orders"}
+                      </h3>
+                      <p className="text-sm text-gray-500 mt-1">
+                        {totalItems === 0 
+                          ? "Orders will appear here once they are placed." 
+                          : "Try adjusting your search or filter."}
+                      </p>
+                    </div>
                   </div>
                 </td>
               </tr>
@@ -64,7 +87,7 @@ export default function OrdersTable({
                     <select
                       value={order.status}
                       onChange={(e) => onStatusChange(order._id, e.target.value as OrderStatus)}
-                      className={`text-xs font-semibold px-2.5 py-1.5 rounded-lg border cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-green ${STATUS_COLORS[order.status]}`}
+                      className={`text-xs font-semibold px-2.5 py-1.5 rounded-lg border cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-green transition-colors ${STATUS_COLORS[order.status]}`}
                     >
                       <option value="PENDING">PENDING</option>
                       <option value="CONFIRMED">CONFIRMED</option>

@@ -31,7 +31,7 @@ export default function Login() {
       if (response) {
         toast.success("Login successful");
         Cookies.set("token", response?.data?.accessToken);
-        router.push("/admin/dashboard");
+        router.push("/dashboard");
       }
     } catch {
       toast.error("login failed");

@@ -35,7 +35,7 @@ export default function OrderDetailsModal({
               Order Details
             </h2>
             <p className="text-sm text-gray-500 mt-1 font-mono">
-              #{order._id.toUpperCase()}
+              OrderId: #{order._id.toUpperCase()}
             </p>
           </div>
           <button
@@ -72,7 +72,7 @@ export default function OrderDetailsModal({
               </div>
             </div>
 
-            {/* Order Summary */}
+          
             <div className="bg-gray-50 p-5 rounded-xl border border-gray-100 space-y-4">
               <h3 className="font-semibold text-gray-900 flex items-center gap-2 border-b border-gray-200 pb-2">
                 <FileText className="w-4 h-4 text-brand-green" /> Order Summary

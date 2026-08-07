@@ -3,6 +3,7 @@
 "use client";
 
 import profileAvatar from "@/assets/profile.png";
+import { useMyProfileQuery } from "@/redux/api/authApi";
 
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
@@ -13,35 +14,12 @@ import { AiOutlineMenu } from "react-icons/ai";
 const Topbar: React.FC<{ onHamburgerClick: () => void }> = ({
   onHamburgerClick,
 }) => {
-  // get notification
-
-  // fksdflk
-
-  // Static mock profile data
-  const profile = {
-    firstName: "Super",
-    lastName: "Admin",
-    profileImage: null,
-  };
-
-  const token = Cookies.get("token");
-
-  let decodedToken: any = null;
-
-  if (token) {
-    try {
-      decodedToken = jwtDecode(token);
-    } catch (e) {
-      decodedToken = null;
-    }
-  }
-
-  console.log("decode token details", decodedToken);
+  const {data: meProfile} = useMyProfileQuery({});
+  const profile = meProfile?.data;
 
   return (
     <header className="bg-white shadow-sm py-6 px-6 lg:px-16 w-full border-b border-red-200">
       <div className="flex justify-between items-center flex-wrap">
-        {/* Hamburger Icon for Mobile */}
         <button
           className="lg:hidden text-2xl text-gray-700"
           onClick={onHamburgerClick}
@@ -49,27 +27,14 @@ const Topbar: React.FC<{ onHamburgerClick: () => void }> = ({
           <AiOutlineMenu />
         </button>
 
-        {/* Welcome Message */}
         <div className="flex items-center gap-6">
-          {/* <Image src={leftarrow} className="w-6 h-6" alt="leftarrow icon"/> */}
           <h1 className="text-[#161616] flex items-center gap-2 text-[16px] md:text-[24px] font-bold">
-            {profile?.firstName}
-            {profile?.lastName}
+          {profile?.fullName || "Super Admin"}
           </h1>
         </div>
 
         <div className="flex items-center gap-6">
-          {/* <div className="flex items-center bg-white w-9 h-9 rounded-full justify-center shadow-sm">
-            <Image src={message} className="w-6 h-6" alt="message icon" />
-          </div> */}
-          {/* <div className="flex items-center bg-white w-9 h-9 rounded-full justify-center shadow-sm">
-            <Image
-              src={profile?.profileImage.src || profileAvatar}
-              className="w-6 h-6"
-              alt="notification icon"
-            />
-          </div> */}
-          <Link href={`/admin/settings`}>
+          <Link href={`/settings`}>
             <Image
               src={profile?.profileImage || profileAvatar}
               className="w-10 h-10 rounded-full"
