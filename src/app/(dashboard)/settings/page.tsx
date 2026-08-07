@@ -1,5 +1,9 @@
+import Settings from "@/components/dashboard/Settings/Settings";
+
 function page() {
-  return <div>settings</div>;
+  return <div>
+    <Settings/>
+  </div>;
 }
 
 export default page;
