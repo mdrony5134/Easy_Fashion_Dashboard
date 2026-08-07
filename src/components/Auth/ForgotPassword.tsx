@@ -1,87 +1,87 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
+// /* eslint-disable @typescript-eslint/no-unused-vars */
+// /* eslint-disable @typescript-eslint/no-explicit-any */
+// "use client";
 
-import type React from "react";
+// import type React from "react";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+// import Link from "next/link";
+// import { useRouter } from "next/navigation";
+// import { useState } from "react";
 
 
-import { toast } from "sonner";
-import AuthLayout from "./AuthLayout";
+// import { toast } from "sonner";
+// import AuthLayout from "./AuthLayout";
 
-export default function ForgotPassword() {
-  const [email, setEmail] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+// export default function ForgotPassword() {
+//   const [email, setEmail] = useState("");
+//   const [isLoading, setIsLoading] = useState(false);
+//   const router = useRouter();
 
-  const [forgotPassowordFn] = useForgotPasswordMutation();
+//   const [forgotPassowordFn] = useForgotPasswordMutation();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+//   const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault();
 
-    if (!email) {
-      toast.error("Please enter a valid email");
-      return;
-    }
+//     if (!email) {
+//       toast.error("Please enter a valid email");
+//       return;
+//     }
 
-    setIsLoading(true);
-    try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 800));
+//     setIsLoading(true);
+//     try {
+//       // Simulate API call
+//       await new Promise((resolve) => setTimeout(resolve, 800));
 
-      toast.success("Email verification code sent successfully");
-      router.push(`/verify-otp?email=${encodeURIComponent(email)}`);
+//       toast.success("Email verification code sent successfully");
+//       router.push(`/verify-otp?email=${encodeURIComponent(email)}`);
       
-    } catch (error: any) {
-      toast.error(
-        error?.data?.message || "Something went wrong. Please try again."
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
+//     } catch (error: any) {
+//       toast.error(
+//         error?.data?.message || "Something went wrong. Please try again."
+//       );
+//     } finally {
+//       setIsLoading(false);
+//     }
+//   };
 
-  return (
-    <AuthLayout title="Forgot password">
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="relative w-full">
-          {/* Label overlapping on top border */}
-          <label className="absolute -top-[10px] left-4 bg-white px-1 text-sm font-medium text-default">
-            Email Address
-          </label>
+//   return (
+//     <AuthLayout title="Forgot password">
+//       <form onSubmit={handleSubmit} className="space-y-6">
+//         <div className="relative w-full">
+//           {/* Label overlapping on top border */}
+//           <label className="absolute -top-[10px] left-4 bg-white px-1 text-sm font-medium text-default">
+//             Email Address
+//           </label>
 
-          {/* Input field */}
-          <input
-            type="email"
-            placeholder="example@gmail.com"
-            className="w-full px-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-brand-green text-gray-600 placeholder-gray-500"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
+//           {/* Input field */}
+//           <input
+//             type="email"
+//             placeholder="example@gmail.com"
+//             className="w-full px-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-brand-green text-gray-600 placeholder-gray-500"
+//             value={email}
+//             onChange={(e) => setEmail(e.target.value)}
+//             required
+//           />
+//         </div>
 
-        <div className="text-sm text-gray-600">
-          Remember the password?{" "}
-          <Link
-            href="/login"
-            className="text-brand-red hover:text-red-600 font-medium"
-          >
-            Log in
-          </Link>
-        </div>
+//         <div className="text-sm text-gray-600">
+//           Remember the password?{" "}
+//           <Link
+//             href="/login"
+//             className="text-brand-red hover:text-red-600 font-medium"
+//           >
+//             Log in
+//           </Link>
+//         </div>
 
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="w-full h-12 bg-brand-red text-white rounded-full hover:bg-red-600 font-semibold"
-        >
-          {isLoading ? "Sending..." : "Send code"}
-        </button>
-      </form>
-    </AuthLayout>
-  );
-}
+//         <button
+//           type="submit"
+//           disabled={isLoading}
+//           className="w-full h-12 bg-brand-red text-white rounded-full hover:bg-red-600 font-semibold"
+//         >
+//           {isLoading ? "Sending..." : "Send code"}
+//         </button>
+//       </form>
+//     </AuthLayout>
+//   );
+// }

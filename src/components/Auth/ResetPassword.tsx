@@ -1,130 +1,130 @@
-"use client";
+// "use client";
 
-import type React from "react";
-
-
-import { Eye, EyeOff } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import AuthLayout from "./AuthLayout";
-import { toast } from "sonner";
-
-export default function ResetPassword() {
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const router = useRouter();
-
-  // const email = searchParams.get("email");
+// import type React from "react";
 
 
+// import { Eye, EyeOff } from "lucide-react";
+// import { useRouter } from "next/navigation";
+// import { useState } from "react";
+// import AuthLayout from "./AuthLayout";
+// import { toast } from "sonner";
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
+// export default function ResetPassword() {
+//   const [newPassword, setNewPassword] = useState("");
+//   const [confirmPassword, setConfirmPassword] = useState("");
+//   const [showNewPassword, setShowNewPassword] = useState(false);
+//   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+//   const [isLoading, setIsLoading] = useState(false);
+//   const [error, setError] = useState("");
+//   const router = useRouter();
 
-    if (newPassword !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
+//   // const email = searchParams.get("email");
 
-    if (newPassword.length < 8) {
-      setError("Password must be at least 8 characters long");
-      return;
-    }
 
-    setIsLoading(true);
 
-    try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      toast.success("Password reset successfully");
-      router.push("/login");
-    } catch {
-      setError("Failed to reset password");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+//   const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//     setError("");
 
-  return (
-    <AuthLayout title="Input the new password">
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* New Password */}
-        <div className="relative w-full mb-6">
-          {/* Floating label */}
-          <label
-            htmlFor="newPassword"
-            className="absolute -top-[10px] left-4 bg-white px-1 text-sm font-medium text-gray-700"
-          >
-            New password
-          </label>
+//     if (newPassword !== confirmPassword) {
+//       setError("Passwords do not match");
+//       return;
+//     }
 
-          {/* Input field */}
-          <input
-            id="newPassword"
-            type={showNewPassword ? "text" : "password"}
-            placeholder="••••••••"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            required
-            className="w-full h-12 px-4 pr-12 border border-gray-300 rounded-full bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-green"
-          />
+//     if (newPassword.length < 8) {
+//       setError("Password must be at least 8 characters long");
+//       return;
+//     }
 
-          {/* Toggle eye button */}
-          <button
-            type="button"
-            onClick={() => setShowNewPassword(!showNewPassword)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            {showNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-          </button>
-        </div>
+//     setIsLoading(true);
 
-        {/* Confirm Password */}
-        <div className="relative w-full">
-          {/* Floating label */}
-          <label
-            htmlFor="confirmPassword"
-            className="absolute -top-[10px] left-4 bg-white px-1 text-sm font-medium text-gray-700"
-          >
-            Confirm new password
-          </label>
+//     try {
+//       // Simulate API call
+//       await new Promise((resolve) => setTimeout(resolve, 800));
+//       toast.success("Password reset successfully");
+//       router.push("/login");
+//     } catch {
+//       setError("Failed to reset password");
+//     } finally {
+//       setIsLoading(false);
+//     }
+//   };
 
-          {/* Input field */}
-          <input
-            id="confirmPassword"
-            type={showConfirmPassword ? "text" : "password"}
-            placeholder="••••••••"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-            className="w-full h-12 px-4 pr-12 border border-gray-300 rounded-full bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-green"
-          />
+//   return (
+//     <AuthLayout title="Input the new password">
+//       <form onSubmit={handleSubmit} className="space-y-4">
+//         {/* New Password */}
+//         <div className="relative w-full mb-6">
+//           {/* Floating label */}
+//           <label
+//             htmlFor="newPassword"
+//             className="absolute -top-[10px] left-4 bg-white px-1 text-sm font-medium text-gray-700"
+//           >
+//             New password
+//           </label>
 
-          {/* Toggle eye button */}
-          <button
-            type="button"
-            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-          </button>
-        </div>
+//           {/* Input field */}
+//           <input
+//             id="newPassword"
+//             type={showNewPassword ? "text" : "password"}
+//             placeholder="••••••••"
+//             value={newPassword}
+//             onChange={(e) => setNewPassword(e.target.value)}
+//             required
+//             className="w-full h-12 px-4 pr-12 border border-gray-300 rounded-full bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-green"
+//           />
 
-        {error && <div className="text-red-500 text-sm">{error}</div>}
+//           {/* Toggle eye button */}
+//           <button
+//             type="button"
+//             onClick={() => setShowNewPassword(!showNewPassword)}
+//             className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+//           >
+//             {showNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+//           </button>
+//         </div>
 
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="w-full h-12 bg-brand-red text-white rounded-full hover:bg-red-600 font-semibold"
-        >
-          {isLoading ? "Updating..." : "Submit"}
-        </button>
-      </form>
-    </AuthLayout>
-  );
-}
+//         {/* Confirm Password */}
+//         <div className="relative w-full">
+//           {/* Floating label */}
+//           <label
+//             htmlFor="confirmPassword"
+//             className="absolute -top-[10px] left-4 bg-white px-1 text-sm font-medium text-gray-700"
+//           >
+//             Confirm new password
+//           </label>
+
+//           {/* Input field */}
+//           <input
+//             id="confirmPassword"
+//             type={showConfirmPassword ? "text" : "password"}
+//             placeholder="••••••••"
+//             value={confirmPassword}
+//             onChange={(e) => setConfirmPassword(e.target.value)}
+//             required
+//             className="w-full h-12 px-4 pr-12 border border-gray-300 rounded-full bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-green"
+//           />
+
+//           {/* Toggle eye button */}
+//           <button
+//             type="button"
+//             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+//             className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+//           >
+//             {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+//           </button>
+//         </div>
+
+//         {error && <div className="text-red-500 text-sm">{error}</div>}
+
+//         <button
+//           type="submit"
+//           disabled={isLoading}
+//           className="w-full h-12 bg-brand-red text-white rounded-full hover:bg-red-600 font-semibold"
+//         >
+//           {isLoading ? "Updating..." : "Submit"}
+//         </button>
+//       </form>
+//     </AuthLayout>
+//   );
+// }

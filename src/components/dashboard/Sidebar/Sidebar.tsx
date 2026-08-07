@@ -46,37 +46,38 @@ const Sidebar = ({ onCloseClick }: SidebarProps) => {
 
   const menuItems = [
     {
-      href: "/admin/dashboard",
+      href: "/dashboard",
       icon: LayoutDashboard,
       label: "Dashboard",
       roles: ["SUPER_ADMIN", "ADMIN", "MANAGER"],
     },
     {
-      href: "/admin/products",
+      href: "/product-attributes",
+      icon: Tags,
+      label: "Product Attributes",
+      roles: ["SUPER_ADMIN", "ADMIN", "MANAGER"],
+    },
+    {
+      href: "/products",
       icon: Package,
       label: "Products",
       roles: ["SUPER_ADMIN", "ADMIN", "MANAGER"],
     },
+
     {
-      href: "/admin/attributes",
-      icon: Tags,
-      label: "Attributes",
-      roles: ["SUPER_ADMIN", "ADMIN", "MANAGER"],
-    },
-    {
-      href: "/admin/order-list",
+      href: "/order-list",
       icon: FileText,
       label: "Order List",
       roles: ["SUPER_ADMIN", "ADMIN", "MANAGER"],
     },
     {
-      href: "/admin/users",
+      href: "/users",
       icon: Users,
       label: "User Management",
       roles: ["SUPER_ADMIN", "ADMIN"],
     },
     {
-      href: "/admin/settings",
+      href: "/settings",
       icon: Settings,
       label: "Settings",
       roles: ["SUPER_ADMIN", "ADMIN", "MANAGER"],

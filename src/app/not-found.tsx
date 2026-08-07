@@ -2,19 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-// import logo from "@/assets/home/c-logo.jpeg";
-// import Image from "next/image";
-
-// import Link from "next/link";
-
-// import Link from &apos;next/link&apos;;
+import notFoundImage from "@/assets/404 Error-rafiki.png";
 
 const NotFound = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-gray-100">
       <div className="text-center">
         <Image
-          src="https://yemca-services.net/404.png"
+          src={notFoundImage}
           alt="404 Illustration"
           width={320}
           height={320}
