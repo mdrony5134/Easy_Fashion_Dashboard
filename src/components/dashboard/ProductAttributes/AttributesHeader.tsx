@@ -14,7 +14,8 @@ export default function AttributesHeader({
   isLoading = false 
 }: AttributesHeaderProps) {
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
         <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
           Product Attributes
@@ -31,6 +32,7 @@ export default function AttributesHeader({
         <Plus className="w-5 h-5" />
         Add {activeTab}
       </button>
+    </div>
     </div>
   );
 }

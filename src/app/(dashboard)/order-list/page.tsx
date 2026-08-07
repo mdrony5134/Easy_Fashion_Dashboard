@@ -64,7 +64,6 @@ export default function OrderListPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
-            <FileText className="w-8 h-8 text-brand-green" />
             Order Management
           </h1>
           <p className="text-gray-500 mt-1">
