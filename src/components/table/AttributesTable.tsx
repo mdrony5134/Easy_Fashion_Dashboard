@@ -1,3 +1,4 @@
+// components/table/AttributesTable.tsx
 import React from "react";
 import { Edit, Trash2, Loader2 } from "lucide-react";
 import { AttributeItem, AttributeType } from "@/types/attributeTypes";
@@ -6,7 +7,7 @@ interface AttributesTableProps {
   data: AttributeItem[];
   activeTab: AttributeType;
   onEdit: (item: AttributeItem) => void;
-  onDelete: (id: string) => void;
+  onDelete: (id: string, name: string) => void;  // Updated to accept name
   isLoading?: boolean;
 }
 
@@ -66,13 +67,15 @@ export default function AttributesTable({
             onClick={() => onEdit(item)}
             disabled={isLoading}
             className="p-2 text-gray-400 hover:text-brand-yellow hover:bg-orange-50 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            title="Edit"
           >
             <Edit className="w-4 h-4" />
           </button>
           <button
-            onClick={() => onDelete(item._id)}
+            onClick={() => onDelete(item._id, item.name)}
             disabled={isLoading}
             className="p-2 text-gray-400 hover:text-brand-red hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            title="Delete"
           >
             <Trash2 className="w-4 h-4" />
           </button>

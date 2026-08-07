@@ -2,25 +2,26 @@
 
 import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
+import Swal from "sweetalert2";
 
 import { AttributeType, AttributeItem } from "@/types/attributeTypes";
 import AttributesHeader from "./AttributesHeader";
 import AttributesTabs from "./AttributesTabs";
 import AttributesTable from "@/components/table/AttributesTable";
 import AttributeModal from "./AttributeModal";
-import { 
-  useCreateCategoriesMutation, 
-  useCreateSizesMutation, 
-  useCreateStylesMutation, 
-  useDeleteCategoryMutation, 
-  useDeleteSizeMutation, 
-  useDeleteStyleMutation, 
-  useGetAllCategoriesQuery, 
-  useGetAllSizesQuery, 
-  useGetAllStylesQuery, 
-  useUpdateCategoryMutation, 
-  useUpdateSizeMutation, 
-  useUpdateStyleMutation 
+import {
+  useCreateCategoriesMutation,
+  useCreateSizesMutation,
+  useCreateStylesMutation,
+  useDeleteCategoryMutation,
+  useDeleteSizeMutation,
+  useDeleteStyleMutation,
+  useGetAllCategoriesQuery,
+  useGetAllSizesQuery,
+  useGetAllStylesQuery,
+  useUpdateCategoryMutation,
+  useUpdateSizeMutation,
+  useUpdateStyleMutation,
 } from "@/redux/api/productAttributeApi";
 
 export default function ProductAttributes() {
@@ -35,24 +36,32 @@ export default function ProductAttributes() {
   });
 
   // Category API
-  const { data: categoriesData, refetch: refetchCategories } = useGetAllCategoriesQuery({});
-  const [createCategoryFn, { isLoading: isCreatingCategory }] = useCreateCategoriesMutation();
-  const [updateCategoryFn, { isLoading: isUpdatingCategory }] = useUpdateCategoryMutation();
-  const [deleteCategoryFn, { isLoading: isDeletingCategory }] = useDeleteCategoryMutation();
+  const { data: categoriesData, refetch: refetchCategories } =
+    useGetAllCategoriesQuery({});
+  const [createCategoryFn, { isLoading: isCreatingCategory }] =
+    useCreateCategoriesMutation();
+  const [updateCategoryFn, { isLoading: isUpdatingCategory }] =
+    useUpdateCategoryMutation();
+  const [deleteCategoryFn, { isLoading: isDeletingCategory }] =
+    useDeleteCategoryMutation();
 
   // Style API
   const { data: stylesData, refetch: refetchStyles } = useGetAllStylesQuery({});
-  const [createStyleFn, { isLoading: isCreatingStyle }] = useCreateStylesMutation();
-  const [updateStyleFn, { isLoading: isUpdatingStyle }] = useUpdateStyleMutation();
-  const [deleteStyleFn, { isLoading: isDeletingStyle }] = useDeleteStyleMutation();
+  const [createStyleFn, { isLoading: isCreatingStyle }] =
+    useCreateStylesMutation();
+  const [updateStyleFn, { isLoading: isUpdatingStyle }] =
+    useUpdateStyleMutation();
+  const [deleteStyleFn, { isLoading: isDeletingStyle }] =
+    useDeleteStyleMutation();
 
   // Size API
   const { data: sizesData, refetch: refetchSizes } = useGetAllSizesQuery({});
-  const [createSizeFn, { isLoading: isCreatingSize }] = useCreateSizesMutation();
+  const [createSizeFn, { isLoading: isCreatingSize }] =
+    useCreateSizesMutation();
   const [updateSizeFn, { isLoading: isUpdatingSize }] = useUpdateSizeMutation();
   const [deleteSizeFn, { isLoading: isDeletingSize }] = useDeleteSizeMutation();
 
-  // Get active data based on tab
+  // active data
   const getActiveData = (): AttributeItem[] => {
     switch (activeTab) {
       case "Category":
@@ -66,7 +75,7 @@ export default function ProductAttributes() {
     }
   };
 
-  // Get loading states
+  // loading states
   const getIsLoading = () => {
     switch (activeTab) {
       case "Category":
@@ -114,7 +123,7 @@ export default function ProductAttributes() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       const payload: any = {
         name: formData.name,
@@ -122,7 +131,8 @@ export default function ProductAttributes() {
       };
 
       if (activeTab === "Category") {
-        payload.slug = formData.slug || formData.name.toLowerCase().replace(/\s+/g, "-");
+        payload.slug =
+          formData.slug || formData.name.toLowerCase().replace(/\s+/g, "-");
       } else if (activeTab === "Size") {
         payload.sortOrder = formData.sortOrder;
       }
@@ -131,10 +141,16 @@ export default function ProductAttributes() {
         // Update operation
         switch (activeTab) {
           case "Category":
-            await updateCategoryFn({ id: editingItem._id, data: payload }).unwrap();
+            await updateCategoryFn({
+              id: editingItem._id,
+              data: payload,
+            }).unwrap();
             break;
           case "Style":
-            await updateStyleFn({ id: editingItem._id, data: payload }).unwrap();
+            await updateStyleFn({
+              id: editingItem._id,
+              data: payload,
+            }).unwrap();
             break;
           case "Size":
             await updateSizeFn({ id: editingItem._id, data: payload }).unwrap();
@@ -157,7 +173,6 @@ export default function ProductAttributes() {
         toast.success(`${activeTab} created successfully`);
       }
 
-      // Refetch data based on active tab
       switch (activeTab) {
         case "Category":
           refetchCategories();
@@ -172,33 +187,82 @@ export default function ProductAttributes() {
 
       handleCloseModal();
     } catch (error: any) {
-      toast.error(error?.data?.message || `Failed to ${editingItem ? 'update' : 'create'} ${activeTab.toLowerCase()}`);
+      toast.error(
+        error?.data?.message ||
+          `Failed to ${editingItem ? "update" : "create"} ${activeTab.toLowerCase()}`,
+      );
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm(`Are you sure you want to delete this ${activeTab.toLowerCase()}?`)) {
-      return;
-    }
+  const handleDelete = async (id: string, name: string) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      html: `You are about to delete the <strong>${activeTab.toLowerCase()}</strong>: <strong>"${name}"</strong>`,
+      text: "This action cannot be undone!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+      customClass: {
+        popup: "rounded-lg",
+        title: "text-xl font-bold",
+        confirmButton: "px-4 py-2 text-sm font-medium",
+        cancelButton: "px-4 py-2 text-sm font-medium",
+      },
+    });
 
-    try {
-      switch (activeTab) {
-        case "Category":
-          await deleteCategoryFn(id).unwrap();
-          refetchCategories();
-          break;
-        case "Style":
-          await deleteStyleFn(id).unwrap();
-          refetchStyles();
-          break;
-        case "Size":
-          await deleteSizeFn(id).unwrap();
-          refetchSizes();
-          break;
+    if (result.isConfirmed) {
+      try {
+        Swal.fire({
+          title: "Deleting...",
+          text: "Please wait while we delete the item.",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+
+        switch (activeTab) {
+          case "Category":
+            await deleteCategoryFn(id).unwrap();
+            refetchCategories();
+            break;
+          case "Style":
+            await deleteStyleFn(id).unwrap();
+            refetchStyles();
+            break;
+          case "Size":
+            await deleteSizeFn(id).unwrap();
+            refetchSizes();
+            break;
+        }
+
+        await Swal.fire({
+          title: "Deleted!",
+          text: `${activeTab} has been deleted successfully.`,
+          icon: "success",
+          confirmButtonColor: "#22c55e",
+          timer: 2000,
+          timerProgressBar: true,
+        });
+
+        // toast.success(`${activeTab} deleted successfully`);
+      } catch (error: any) {
+        await Swal.fire({
+          title: "Error!",
+          text:
+            error?.data?.message ||
+            `Failed to delete ${activeTab.toLowerCase()}`,
+          icon: "error",
+          confirmButtonColor: "#d33",
+        });
+        toast.error(
+          error?.data?.message || `Failed to delete ${activeTab.toLowerCase()}`,
+        );
       }
-      toast.success(`${activeTab} deleted successfully`);
-    } catch (error: any) {
-      toast.error(error?.data?.message || `Failed to delete ${activeTab.toLowerCase()}`);
     }
   };
 
@@ -206,7 +270,6 @@ export default function ProductAttributes() {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  // Refetch data when tab changes
   useEffect(() => {
     switch (activeTab) {
       case "Category":
@@ -223,7 +286,7 @@ export default function ProductAttributes() {
 
   return (
     <div className="space-y-6 relative">
-      <AttributesHeader 
+      <AttributesHeader
         activeTab={activeTab}
         onAddClick={() => handleOpenModal()}
         isLoading={getIsLoading()}
