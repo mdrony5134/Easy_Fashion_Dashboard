@@ -1,7 +1,6 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
 interface PaginationProps {
@@ -9,8 +8,6 @@ interface PaginationProps {
   totalItems: number
   itemsPerPage: number
   onPageChange: (page: number) => void
-  onItemsPerPageChange: (itemsPerPage: number) => void
-  itemsPerPageOptions?: number[]
 }
 
 export default function Pagination({
@@ -18,8 +15,6 @@ export default function Pagination({
   totalItems,
   itemsPerPage,
   onPageChange,
-  onItemsPerPageChange,
-  itemsPerPageOptions = [10, 20, 50, 100],
 }: PaginationProps) {
   const totalPages = Math.ceil(totalItems / itemsPerPage)
  
@@ -46,23 +41,7 @@ export default function Pagination({
   }
 
   return (
-    <div className="flex flex-col md:flex-row items-center w-full justify-between gap-4 px-6">
-      <div className="flex items-center gap-2 text-sm text-gray-600">
-        <span>Showing</span>
-        <Select value={itemsPerPage.toString()} onValueChange={(value) => onItemsPerPageChange(Number.parseInt(value))}>
-          <SelectTrigger className="w-16 h-8">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {itemsPerPageOptions.map((option) => (
-              <SelectItem key={option} value={option.toString()}>
-                {option}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <span>Out of {totalItems}</span>
-      </div>
+    <div className="flex flex-col md:flex-row items-center w-full justify-end gap-4 px-6">
 
       <div className="flex items-center gap-2">
         <Button
@@ -85,7 +64,7 @@ export default function Pagination({
               onClick={() => typeof page === "number" && onPageChange(page)}
               disabled={typeof page !== "number"}
               className={`w-8 h-8 p-0 ${
-                page === currentPage ? "bg-[#FC961A]  text-white" : "hover:bg-gray-50"
+                page === currentPage ? "bg-brand-red  text-white" : "hover:bg-gray-50"
               }`}
             >
               {page}
