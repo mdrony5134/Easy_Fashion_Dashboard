@@ -40,17 +40,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 export default function FinancialChart({ data, isLoading }: FinancialChartProps) {
-  if (isLoading) {
-    return (
-      <Card className="lg:col-span-2 bg-white shadow-sm border-0">
-        <CardContent className="p-4 md:p-6">
-          <div className="flex items-center justify-center h-80">
-            <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
+
 
   const hasData = data.some(item => 
     item.totalRevenue > 0 || item.delivered > 0 || item.cancelled > 0
@@ -79,8 +69,10 @@ export default function FinancialChart({ data, isLoading }: FinancialChartProps)
           </div>
         </div>
         
-        {!hasData ? (
-          <div className="flex items-center justify-center h-64 bg-gray-50 rounded-lg">
+        {isLoading ? (
+          <div className="h-64 md:h-80 bg-gray-100 rounded-lg animate-pulse"></div>
+        ) : !hasData ? (
+          <div className="flex items-center justify-center h-64 md:h-80 bg-gray-50 rounded-lg">
             <p className="text-gray-500 text-sm">No data available for the selected period</p>
           </div>
         ) : (
@@ -109,18 +101,24 @@ export default function FinancialChart({ data, isLoading }: FinancialChartProps)
                   name="Total Revenue"
                   fill="#ECCD3E"
                   radius={[4, 4, 0, 0]}
+                  maxBarSize={40}
+                  barSize={20}
                 />
                 <Bar
                   dataKey="delivered"
                   name="Delivered"
                   fill="#4CAF50"
                   radius={[4, 4, 0, 0]}
+                  maxBarSize={40}
+                  barSize={20}
                 />
                 <Bar
                   dataKey="cancelled"
                   name="Cancelled"
                   fill="#E53935"
                   radius={[4, 4, 0, 0]}
+                  maxBarSize={40}
+                  barSize={20}
                 />
               </BarChart>
             </ResponsiveContainer>

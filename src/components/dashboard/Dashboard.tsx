@@ -44,15 +44,15 @@ export default function Dashboard() {
   return (
     <div className="p-4 md:p-6 lg:p-8 bg-gray-50 min-h-screen">
       <StatsCards stats={statsData} isLoading={isLoading} />
-      
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 mt-6 md:mt-8">
-        <FinancialChart 
-          data={revenueChartData} 
-          isLoading={isLoading} 
+        <FinancialChart
+          data={revenueChartData}
+          isLoading={isLoading}
         />
-        <OrderPieChart 
-          data={ringChartData} 
-          isLoading={isLoading} 
+        <OrderPieChart
+          data={ringChartData}
+          isLoading={isLoading}
         />
       </div>
     </div>

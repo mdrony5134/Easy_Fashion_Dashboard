@@ -48,17 +48,7 @@ const CustomTooltip = ({ active, payload }: any) => {
 };
 
 export default function OrderPieChart({ data, isLoading }: OrderPieChartProps) {
-  if (isLoading) {
-    return (
-      <Card className="bg-white shadow-sm border-0">
-        <CardContent className="p-4 md:p-6">
-          <div className="flex items-center justify-center h-80">
-            <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
+
 
   const pieData = Object.entries(data)
     .filter(([_, value]) => value > 0)
@@ -77,7 +67,9 @@ export default function OrderPieChart({ data, isLoading }: OrderPieChartProps) {
           Order Status Distribution
         </h3>
         
-        {!hasData ? (
+        {isLoading ? (
+          <div className="h-64 bg-gray-100 rounded-lg animate-pulse"></div>
+        ) : !hasData ? (
           <div className="flex items-center justify-center h-64 bg-gray-50 rounded-lg">
             <p className="text-gray-500 text-sm">No orders available</p>
           </div>
