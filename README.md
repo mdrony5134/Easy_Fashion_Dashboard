@@ -1,39 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Easy Fashion Dashboard
+
+## Overview
+Easy Fashion Dashboard is an administrative interface built with Next.js to manage the e-commerce operations of the Easy Fashion platform. It provides a robust suite of tools for managing products, users, and orders, utilizing a secure Role-Based Access Control (RBAC) system.
+
+## Technologies Used
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Redux Toolkit & RTK Query
+- JWT Decode
+
+## Features
+
+### Role-Based Access Control
+- SUPER_ADMIN: Full access to all dashboard routes and features.
+- ADMIN: Access to Product Management, User Management (View Only), and Orders.
+- MANAGER: Access to Dashboard view, Product view, and Order Management.
+
+### Product Management
+- Create, read, update, and delete products (based on role).
+- Manage product attributes like categories, sizes, and styles.
+
+### User Management
+- View all registered users.
+- Create new users and toggle active statuses (restricted to SUPER_ADMIN).
+
+### Order Management
+- View incoming orders and update fulfillment statuses.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+- Node.js (version 18 or above)
+- npm or yarn
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Installation
+1. Clone the repository.
+2. Navigate to the project directory.
+3. Install dependencies:
+   npm install
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Create a .env file based on your environment requirements.
+5. Run the development server:
+   npm run dev
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+6. Open http://localhost:3004 in your browser (default port as per package.json).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure
+- src/app: Next.js routing and page components.
+- src/components: Reusable UI components and feature-specific blocks (Dashboard, Tables, Auth).
+- src/redux: State management using Redux Toolkit and API integration using RTK Query.
+- src/types: TypeScript interface definitions.
+- src/proxy.ts: Next.js proxy middleware for role-based route protection.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-
-# Easy_Fashion_Dashboard
+## Scripts
+- npm run dev: Starts the development server with Turbopack.
+- npm run build: Builds the application for production.
+- npm run start: Starts the production server.
+- npm run lint: Runs ESLint for code quality checks.

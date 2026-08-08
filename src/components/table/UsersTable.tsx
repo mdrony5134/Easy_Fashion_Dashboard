@@ -6,7 +6,7 @@ import { UserType } from "@/types/usersTypes";
 
 interface UsersTableProps {
   users: UserType[];
-  onToggleStatus: (id: string, currentStatus: boolean) => void;
+  onToggleStatus?: (id: string, currentStatus: boolean) => void;
   isLoading?: boolean;
 }
 
@@ -94,14 +94,15 @@ export default function UsersTable({
                   </td>
                   <td className="py-4 px-6">
                     <button
-                      onClick={() => onToggleStatus(user.id, user.isActive)}
+                      onClick={() => onToggleStatus && onToggleStatus(user.id, user.isActive)}
+                      disabled={!onToggleStatus}
                       className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-brand-red focus:ring-offset-2 ${
                         user.isActive ? "bg-green-500" : "bg-gray-300"
-                      }`}
+                      } ${!onToggleStatus ? "cursor-default opacity-80" : "cursor-pointer hover:opacity-90"}`}
                       title={
-                        user.isActive
-                          ? "Click to deactivate"
-                          : "Click to activate"
+                        !onToggleStatus 
+                          ? (user.isActive ? "Active" : "Inactive")
+                          : (user.isActive ? "Click to deactivate" : "Click to activate")
                       }
                     >
                       <span

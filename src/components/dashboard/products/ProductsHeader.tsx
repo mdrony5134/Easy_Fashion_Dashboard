@@ -2,7 +2,7 @@ import React from "react";
 import { Plus, Search } from "lucide-react";
 
 interface ProductsHeaderProps {
-  onAddClick: () => void;
+  onAddClick?: () => void;
   onSearch?: (term: string) => void;
   isLoading?: boolean;
 }
@@ -46,14 +46,16 @@ export default function ProductsHeader({
             />
           </div>
         )}
-        <button
-          onClick={onAddClick}
-          disabled={isLoading}
-          className="flex items-center gap-2 bg-brand-red hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <Plus className="w-5 h-5" />
-          Add Product
-        </button>
+        {onAddClick && (
+          <button
+            onClick={onAddClick}
+            disabled={isLoading}
+            className="flex items-center gap-2 bg-brand-red hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <Plus className="w-5 h-5" />
+            Add Product
+          </button>
+        )}
       </div>
     </div>
     </div>

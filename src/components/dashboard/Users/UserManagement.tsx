@@ -1,22 +1,25 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { RootState } from "@/redux/store";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import Swal from "sweetalert2";
 
-import { UserType } from "@/types/usersTypes";
 import UsersTable from "@/components/table/UsersTable";
+import { UserType } from "@/types/usersTypes";
 
+import Pagination from "@/components/ui/Pagination";
 import {
   useCreateUserMutation,
   useGetUserListQuery,
   useUpdateUserStatusMutation,
 } from "@/redux/api/usersApi";
-import UsersHeader from "./UsersHeader";
-import Pagination from "@/components/ui/Pagination";
 import CreateUserModal from "./CreateUserModal";
+import UsersHeader from "./UsersHeader";
 
 export default function UserManagement() {
+  const role = useSelector((state: RootState) => state.auth.role);
   const [searchQuery, setSearchQuery] = useState("");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,8 +36,7 @@ export default function UserManagement() {
   });
 
   const [createUserFn, { isLoading: isCreating }] = useCreateUserMutation();
-  const [updateUserStatusFn] =
-    useUpdateUserStatusMutation();
+  const [updateUserStatusFn] = useUpdateUserStatusMutation();
 
   const users = usersData?.data || [];
   const meta = usersData?.meta || { total: 0, totalPages: 1 };
@@ -42,9 +44,11 @@ export default function UserManagement() {
   const handleCreateUser = async (userData: any) => {
     try {
       const response = await createUserFn(userData).unwrap();
-      toast.success("User created successfully!");
-      setIsCreateModalOpen(false);
-      refetch();
+      if (response.success) {
+        toast.success(response.message || "User created successfully!");
+        setIsCreateModalOpen(false);
+        refetch();
+      }
     } catch (error: any) {
       toast.error(error?.data?.message || "Failed to create user");
     }
@@ -83,8 +87,6 @@ export default function UserManagement() {
     }
   };
 
-
-
   const handleSearch = (term: string) => {
     setSearchQuery(term);
     setCurrentPage(1);
@@ -101,14 +103,16 @@ export default function UserManagement() {
   return (
     <div className="space-y-6 relative">
       <UsersHeader
-        onAddClick={() => setIsCreateModalOpen(true)}
+        onAddClick={
+          role === "SUPER_ADMIN" ? () => setIsCreateModalOpen(true) : undefined
+        }
         onSearch={handleSearch}
         isLoading={isLoading}
       />
 
       <UsersTable
         users={users}
-        onToggleStatus={handleToggleStatus}
+        onToggleStatus={role === "SUPER_ADMIN" ? handleToggleStatus : undefined}
         isLoading={isLoading}
       />
 

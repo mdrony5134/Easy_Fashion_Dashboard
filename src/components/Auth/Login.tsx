@@ -5,21 +5,21 @@ import { useLoginMutation } from "@/redux/api/authApi";
 import Cookies from "js-cookie";
 import { ArrowRight, Eye, EyeOff, Lock, Mail } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+// import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type React from "react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/redux/ReduxFunction";
 import { toast } from "sonner";
-
-type Role = "Super Admin" | "Admin" | "Manager";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [activeRole, setActiveRole] = useState<Role>("Super Admin");
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const dispatch = useDispatch();
   const [loginFn] = useLoginMutation();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -30,6 +30,15 @@ export default function Login() {
       const response = await loginFn({ email, password }).unwrap();
       if (response) {
         toast.success("Login successful");
+        
+        const userData = response.data?.user;
+        if (userData) {
+          dispatch(setUser({
+            role: userData.role?.name,
+            email: userData.email,
+          }));
+        }
+
         Cookies.set("token", response?.data?.accessToken);
         router.push("/dashboard");
       }

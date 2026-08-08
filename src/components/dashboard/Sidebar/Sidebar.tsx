@@ -9,9 +9,9 @@ import {
   LogOut,
   Package,
   Settings,
+  Tags,
   Users,
   X,
-  Tags,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -55,7 +55,7 @@ const Sidebar = ({ onCloseClick }: SidebarProps) => {
       href: "/product-attributes",
       icon: Tags,
       label: "Product Attributes",
-      roles: ["SUPER_ADMIN", "ADMIN", "MANAGER"],
+      roles: ["SUPER_ADMIN", "ADMIN"],
     },
     {
       href: "/products",
@@ -63,7 +63,6 @@ const Sidebar = ({ onCloseClick }: SidebarProps) => {
       label: "Products",
       roles: ["SUPER_ADMIN", "ADMIN", "MANAGER"],
     },
-
     {
       href: "/order-list",
       icon: FileText,
@@ -80,7 +79,7 @@ const Sidebar = ({ onCloseClick }: SidebarProps) => {
       href: "/settings",
       icon: Settings,
       label: "Settings",
-      roles: ["SUPER_ADMIN", "ADMIN", "MANAGER"],
+      roles: ["SUPER_ADMIN"],
     },
   ];
 
@@ -90,8 +89,6 @@ const Sidebar = ({ onCloseClick }: SidebarProps) => {
 
   const handleLogout = () => {
     Cookies.remove("token");
-
-    // Redirect to login page
     router.push("/login");
   };
 

@@ -4,6 +4,8 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
 import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 import { Product } from "@/types/productTypes";
 import Pagination from "@/components/ui/Pagination";
@@ -20,6 +22,7 @@ import ProductDetailsModal from "./ProductDetailsModal";
 
 
 export default function ProductsManagement() {
+  const role = useSelector((state: RootState) => state.auth.role);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -123,7 +126,7 @@ export default function ProductsManagement() {
   return (
     <div className="space-y-6 relative">
       <ProductsHeader 
-        onAddClick={handleAddProduct} 
+        onAddClick={role !== "MANAGER" ? handleAddProduct : undefined} 
         onSearch={handleSearch}
         isLoading={isLoading}
       />
@@ -131,8 +134,8 @@ export default function ProductsManagement() {
       <ProductsTable
         products={products}
         onView={handleViewProduct}
-        onEdit={handleEditProduct}
-        onDelete={handleDeleteProduct}
+        onEdit={role !== "MANAGER" ? handleEditProduct : undefined}
+        onDelete={role !== "MANAGER" ? handleDeleteProduct : undefined}
         isLoading={isLoading}
         isDeleting={isDeleting}
       />

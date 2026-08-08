@@ -6,8 +6,8 @@ import { Product } from "@/types/productTypes";
 interface ProductsTableProps {
   products: Product[];
   onView: (product: Product) => void;
-  onEdit: (product: Product) => void;
-  onDelete: (id: string, name: string) => void;
+  onEdit?: (product: Product) => void;
+  onDelete?: (id: string, name: string) => void;
   isLoading?: boolean;
   isDeleting?: boolean;
 }
@@ -131,22 +131,26 @@ export default function ProductsTable({
                       >
                         <Eye className="w-4 h-4" />
                       </button>
-                      <button
-                        onClick={() => onEdit(product)}
-                        disabled={isDeleting}
-                        className="p-2 text-gray-400 hover:text-brand-yellow hover:bg-orange-50 rounded-lg transition-colors disabled:opacity-50"
-                        title="Edit Product"
-                      >
-                        <Edit className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => onDelete(product._id, product.name)}
-                        disabled={isDeleting}
-                        className="p-2 text-gray-400 hover:text-brand-red hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
-                        title="Delete Product"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+                      {onEdit && (
+                        <button
+                          onClick={() => onEdit(product)}
+                          disabled={isDeleting}
+                          className="p-2 text-gray-400 hover:text-brand-yellow hover:bg-orange-50 rounded-lg transition-colors disabled:opacity-50"
+                          title="Edit Product"
+                        >
+                          <Edit className="w-4 h-4" />
+                        </button>
+                      )}
+                      {onDelete && (
+                        <button
+                          onClick={() => onDelete(product._id, product.name)}
+                          disabled={isDeleting}
+                          className="p-2 text-gray-400 hover:text-brand-red hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
+                          title="Delete Product"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      )}
                     </div>
                   </td>
                 </tr>
