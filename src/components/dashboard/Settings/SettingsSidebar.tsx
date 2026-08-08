@@ -1,4 +1,3 @@
-// app/admin/settings/components/SettingsSidebar.tsx
 "use client";
 
 import React from "react";

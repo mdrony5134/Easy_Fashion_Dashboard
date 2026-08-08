@@ -1,8 +1,7 @@
-// app/admin/settings/components/PasswordTab.tsx
 "use client";
 
 import React, { useState } from "react";
-import { Eye, EyeOff, Info, Lock, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -40,16 +39,8 @@ export default function PasswordTab() {
     }
 
     setIsChanging(true);
-    try {
-      // Simulate API call - will be replaced with actual API
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      toast.success("Password changed successfully");
-      reset();
-    } catch (error: any) {
-      toast.error(error?.data?.message || "Failed to change password");
-    } finally {
-      setIsChanging(false);
-    }
+    toast.info("Coming soon this feature");
+    reset();
   };
 
   return (
