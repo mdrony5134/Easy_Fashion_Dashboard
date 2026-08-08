@@ -3,6 +3,8 @@
 ## Overview
 Easy Fashion Dashboard is an administrative interface built with Next.js to manage the e-commerce operations of the Easy Fashion platform. It provides a robust suite of tools for managing products, users, and orders, utilizing a secure Role-Based Access Control (RBAC) system.
 
+## Live Link: https://easy-fashion-dashboard.vercel.app/login
+
 ## Technologies Used
 - Next.js
 - React
@@ -45,7 +47,7 @@ Easy Fashion Dashboard is an administrative interface built with Next.js to mana
 5. Run the development server:
    npm run dev
 
-6. Open http://localhost:3004 in your browser (default port as per package.json).
+6. Open http://localhost:3000 in your browser (default port as per package.json).
 
 ## Project Structure
 - src/app: Next.js routing and page components.
