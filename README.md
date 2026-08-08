@@ -55,9 +55,3 @@ Easy Fashion Dashboard is an administrative interface built with Next.js to mana
 - src/redux: State management using Redux Toolkit and API integration using RTK Query.
 - src/types: TypeScript interface definitions.
 - src/proxy.ts: Next.js proxy middleware for role-based route protection.
-
-## Scripts
-- npm run dev: Starts the development server with Turbopack.
-- npm run build: Builds the application for production.
-- npm run start: Starts the production server.
-- npm run lint: Runs ESLint for code quality checks.
